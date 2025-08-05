@@ -24,5 +24,26 @@ export const DUMMY_TASK = [
         description: "Learn it from GFG State Management",
         date: new Date().toLocaleString(),
         isComplete: true
-    }
+    },
+    {
+        id: 4,
+        title: "Learn React Native navigation",
+        description: "Learn it from GFG React Navigation",
+        date: new Date().toLocaleString(),
+        isComplete: false
+    },
+    {
+        id: 5,
+        title: "Learn React Native navigation",
+        description: "Learn it from GFG React Navigation",
+        date: new Date().toLocaleString(),
+        isComplete: false
+    },
+    {
+        id: 6,
+        title: "Learn React Native navigation",
+        description: "Learn it from GFG React Navigation",
+        date: new Date().toLocaleString(),
+        isComplete: false
+    },
 ];
