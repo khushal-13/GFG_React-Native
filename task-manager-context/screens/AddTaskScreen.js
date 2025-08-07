@@ -1,11 +1,14 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Appbar, Button, Chip, TextInput } from "react-native-paper";
 import { AppScreens } from "../utils/constants";
+import { TaskContext } from "../context/task";
 
-const AddTaskScreen = ({ onAddNewTask, changeScreen }) => {
+const AddTaskScreen = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const {handleAddNewTask, setCurrentScreen} = useContext(TaskContext);
 
   const handleSubmit = () => {
     if (
@@ -25,8 +28,7 @@ const AddTaskScreen = ({ onAddNewTask, changeScreen }) => {
       date: new Date().toLocaleString(),
     };
 
-    console.log(newTask);
-    onAddNewTask(newTask);
+    handleAddNewTask(newTask);
   };
 
   return (
@@ -42,7 +44,7 @@ const AddTaskScreen = ({ onAddNewTask, changeScreen }) => {
       </Chip> */}
 
       <Appbar>
-        <Appbar.BackAction onPress={() => changeScreen(AppScreens.HomeScreen)} />
+        <Appbar.BackAction onPress={() => setCurrentScreen(AppScreens.HomeScreen)} />
         <Appbar.Content title="Add New task" />
       </Appbar>
 

@@ -1,10 +1,14 @@
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Chip } from "react-native-paper";
 import TaskItem from "../components/TaskItem";
 import { AppScreens } from "../utils/constants";
+import { TaskContext } from "../context/task";
 
-const HomeScreen = ({ tasks, onTaskComplete, onTaskDelete, changeScreen }) => {
+const HomeScreen = () => {
+
+  const {tasks, handleTaskComplete, handleTaskDelete, setCurrentScreen} = useContext(TaskContext);
+
   return (
     <View style={styles.container}>
       {/* <Text style={{ color: "red", fontWeight: "bold" }}>HomeScreen</Text> */}
@@ -13,7 +17,7 @@ const HomeScreen = ({ tasks, onTaskComplete, onTaskDelete, changeScreen }) => {
         textStyle={{
           fontSize: 20,
         }}
-        onPress={() => changeScreen(AppScreens.AddTaskScreen)}
+        onPress={() => setCurrentScreen(AppScreens.AddTaskScreen)}
         style={styles.newTask}
       >
         Add New Task
@@ -30,10 +34,8 @@ const HomeScreen = ({ tasks, onTaskComplete, onTaskDelete, changeScreen }) => {
             description={iter.item.description}
             id={iter.item.id}
             isComplete={iter.item.isComplete}
-            onComplete={(id) => onTaskComplete(id)}
-            onDelete={(id) => onTaskDelete(id)}
-            // onComplete={(id) => onTaskComplete(id)}
-            // onDelete={(id) => onTaskDelete(id)}
+            onComplete={(id) => handleTaskComplete(id)}
+            onDelete={(id) => handleTaskDelete(id)}
           />
         )}
         contentContainerStyle={{ paddingVertical: 10, paddingBottom: 80 }}

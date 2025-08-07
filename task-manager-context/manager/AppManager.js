@@ -6,10 +6,10 @@ import HomeScreen from "../screens/HomeScreen";
 import { TaskContext } from "../context/task";
 
 const AppManager = () => {
-  const [currentScreen, setCurrentScreen] = useState(AppScreens.HomeScreen);
+  // const [currentScreen, setCurrentScreen] = useState(AppScreens.HomeScreen);
   // const [tasks, setTasks] = useState([...DUMMY_TASK]);
 
-  const {tasks, setTasks} = useContext(TaskContext);
+  const {tasks, setTasks, currentScreen, setCurrentScreen} = useContext(TaskContext);
 
   const handleTaskComplete = (id) => {
     alert(`Task Complete from APP ${id}`);
@@ -43,15 +43,15 @@ const AppManager = () => {
     <View>
       {currentScreen === AppScreens.AddTaskScreen ? (
         <AddTaskScreen
-          onAddNewTask={handleAddNewTask}
-          changeScreen={(screenName) => setCurrentScreen(screenName)}
+          // onAddNewTask={handleAddNewTask}
+          // changeScreen={(screenName) => setCurrentScreen(screenName)}
         />
       ) : (
         <HomeScreen
-          tasks={tasks}
-          onTaskComplete={handleTaskComplete}
-          onTaskDelete={handleTaskDelete}
-          changeScreen={(screenName) => setCurrentScreen(screenName)}
+          // tasks={tasks}
+          // onTaskComplete={handleTaskComplete}
+          // onTaskDelete={handleTaskDelete}
+          // changeScreen={(screenName) => setCurrentScreen(screenName)}
         />
       )}
     </View>
