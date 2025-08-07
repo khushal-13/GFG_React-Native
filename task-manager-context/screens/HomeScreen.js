@@ -11,7 +11,6 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={{ color: "red", fontWeight: "bold" }}>HomeScreen</Text> */}
       <Chip
         icon={"plus"}
         textStyle={{

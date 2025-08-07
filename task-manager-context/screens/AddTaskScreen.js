@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { Appbar, Button, Chip, TextInput } from "react-native-paper";
 import { AppScreens } from "../utils/constants";
@@ -33,16 +33,6 @@ const AddTaskScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.heading}> Add New Task</Text> */}
-      {/* <Chip
-      textStyle={{textAlign: 'center', fontSize: 18}}
-        icon={"application-edit-outline"}
-        mode="flat"
-        style={styles.heading}
-      >
-        Add New Task
-      </Chip> */}
-
       <Appbar>
         <Appbar.BackAction onPress={() => setCurrentScreen(AppScreens.HomeScreen)} />
         <Appbar.Content title="Add New task" />

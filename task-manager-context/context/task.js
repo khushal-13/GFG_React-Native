@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { AppScreens, DUMMY_TASK } from "../utils/constants";
-import AppManager from "../manager/AppManager";
 
 export const TaskContext = createContext(); 
 
@@ -34,13 +33,19 @@ export const TaskProvider = ({ children }) => {
     
       const handleAddNewTask = (newTask) => {
         setTasks((prev) => [...prev, newTask]);
-
-        AppManager.setCurrentScreen(AppScreens.HomeScreen);
         setCurrentScreen(AppScreens.HomeScreen);
       };
 
     return (
-        <TaskContext.Provider value={{tasks, setTasks, handleTaskComplete, handleTaskDelete, handleAddNewTask}}>
+        <TaskContext.Provider value={{
+          tasks, 
+          setTasks, 
+          handleTaskComplete, 
+          handleTaskDelete, 
+          handleAddNewTask, 
+          currentScreen, 
+          setCurrentScreen
+          }}>
             {children}
         </TaskContext.Provider>
     );

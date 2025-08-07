@@ -5,9 +5,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const TaskItem = ({ title, description, date, id, isComplete, onComplete, onDelete }) => {
+
   return (
     <Card style={styles.card}>
-      {isComplete && 
+      {isComplete &&
       // <Chip icon={"check-circle"} style={{margin:6, marginLeft:'auto', backgroundColor: 'lightgreen'}} mode="contained">Task Done</Chip>
       <Icon name="check-square" size={20} style={styles.icon} />
       }
