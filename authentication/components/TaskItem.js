@@ -1,7 +1,5 @@
 import { Platform, StyleSheet, View } from "react-native";
-import React from "react";
 import { Button, Card, Chip, Text } from "react-native-paper";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const TaskItem = ({ title, description, date, id, isComplete, onComplete, onDelete }) => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button, Text, Card } from "react-native-paper";
-import { login } from "../appwrite/auth.js";
+import { login } from "../appwrite/authService";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");

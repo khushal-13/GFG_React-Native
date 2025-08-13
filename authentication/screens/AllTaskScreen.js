@@ -1,67 +1,68 @@
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import { Appbar, Button, Chip } from "react-native-paper";
+import React, { useContext, useCallback } from "react";
+import { StyleSheet, View, FlatList, RefreshControl } from "react-native";
 import TaskItem from "../components/TaskItem";
 import { TaskContext } from "../context/task";
+import { Appbar } from "react-native-paper";
 
-const HomeScreen = () => {
+const AllTaskScreen = () => {
+  const { tasks, handleTaskComplete, handleTaskDelete, fetchTasks } = useContext(TaskContext);
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  // const {tasks, handleTaskComplete, handleTaskDelete, setCurrentScreen} = useContext(TaskContext);
-  const {tasks, handleTaskComplete, handleTaskDelete} = useContext(TaskContext);
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchTasks();
+    setRefreshing(false);
+  }, [fetchTasks]);
 
   return (
     <View style={styles.container}>
-      <Appbar>
-        <Appbar.Content title="All Task" />
-      </Appbar>
-      {/* <Chip
-        icon={"plus"}
-        textStyle={{
-          fontSize: 20,
-        }}
-        onPress={() => setCurrentScreen(AppScreens.AddTaskScreen)}
-        style={styles.newTask}
-      >
-        Add New Task
-      </Chip> */}
+      <Appbar.Header>
+        <Appbar.Content title="All Tasks" />
+        <Appbar.Action icon="refresh" onPress={onRefresh} />
+      </Appbar.Header>
+
       <FlatList
         style={styles.list}
         data={tasks}
-        // keyExtractor={(item, index) => item.title + index}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={(iter) => (
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        renderItem={({ item }) => (
           <TaskItem
-            date={iter.item.date}
-            title={iter.item.title}
-            description={iter.item.description}
-            id={iter.item.id}
-            isComplete={iter.item.isComplete}
-            onComplete={(id) => handleTaskComplete(id)}
-            onDelete={(id) => handleTaskDelete(id)}
+            date={item.date}
+            title={item.title}
+            description={item.description}
+            id={item.id}
+            isComplete={item.isComplete}
+            onComplete={() => handleTaskComplete(item.id)}
+            onDelete={() => handleTaskDelete(item.id)}
           />
         )}
-        // contentContainerStyle={{ paddingVertical: 10, paddingBottom: 20 }}
-
-        // contentContainerStyle={{ padding: 10, marginTop: 4 }}
+        ListEmptyComponent={
+          <View style={styles.empty}>
+            <Appbar.Content title="No tasks found" />
+          </View>
+        }
       />
     </View>
   );
 };
 
-export default HomeScreen;
+export default AllTaskScreen;
 
 const styles = StyleSheet.create({
-  container:{
-    paddingBottom:80,
-    margin: 20
+  container: {
+    flex: 1,
+    paddingBottom: 80,
+    backgroundColor: "#fff",
   },
-  list:{
-    marginTop:20,
-    marginBottom: 50
+  list: {
+    marginTop: 10,
+    marginHorizontal: 20,
   },
-  newTask: {
-    padding: 4,
-    marginTop: 15,
-    marginHorizontal: 10,
+  empty: {
+    padding: 20,
+    alignItems: "center",
   },
 });

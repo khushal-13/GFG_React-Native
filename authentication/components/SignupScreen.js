@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button, Text, Card } from "react-native-paper";
-import { register, login } from "../appwrite/auth.js";
+import { register, login } from "../appwrite/authService";
 
 export default function SignupScreen({ navigation }) {
   const [name, setName] = useState("");

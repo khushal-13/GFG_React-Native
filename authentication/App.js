@@ -7,7 +7,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import SignupScreen from "./components/SignupScreen";
 import LoginScreen from "./components/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
-import { getCurrentUser } from "./appwrite/auth.js";
+import { getCurrentUser } from "./appwrite/authService";
 import { TaskProvider } from "./context/task";
 
 const Stack = createNativeStackNavigator();

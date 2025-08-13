@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Button, Appbar } from "react-native-paper";
-import { logout, getCurrentUser } from "../appwrite/auth"; // adjust path
+import { logout, getCurrentUser } from "../appwrite/authService"; // adjust path
 
 const Profile = ({ navigation }) => {
   const [user, setUser] = useState(null);
