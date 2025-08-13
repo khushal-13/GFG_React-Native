@@ -22,6 +22,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+    <Text> Hello World !!</Text>
       <Text variant="headlineMedium">
         {user ? `Welcome, ${user.name} 🎉` : "Loading..."}
       </Text>
