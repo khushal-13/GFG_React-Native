@@ -1,10 +1,10 @@
 // context/task.js
 import { createContext, useState, useEffect } from "react";
 import { Alert } from "react-native";
-import { databases, appwriteConfig } from "../appwrite/appwrite";
+import { databases, appwriteConfig, account } from "../appwrite/appwrite";
 import { ID, Query } from "appwrite";
 
-export const TaskContext = createContext(); 
+export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
@@ -12,19 +12,23 @@ export const TaskProvider = ({ children }) => {
   // Fetch tasks from Appwrite
   const fetchTasks = async () => {
     try {
+      const user = await account.get(); // get logged-in user
       const res = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.collectionId,
-        [Query.orderDesc("$createdAt")]
+        [
+          Query.equal("userId", user.$id), // 👈 only tasks of this user
+          Query.orderDesc("$createdAt")
+        ]
       );
 
       // Convert Appwrite documents to our local task format
-      const loadedTasks = res.documents.map(doc => ({
+      const loadedTasks = res.documents.map((doc) => ({
         id: doc.$id,
         title: doc.title,
         description: doc.description,
         date: doc.date,
-        isComplete: doc.isComplete
+        isComplete: doc.isComplete,
       }));
 
       setTasks(loadedTasks);
@@ -45,12 +49,16 @@ export const TaskProvider = ({ children }) => {
         id,
         { isComplete: true }
       );
-      setTasks(prev => prev.map(task => task.id === id ? { ...task, isComplete: true } : task));
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === id ? { ...task, isComplete: true } : task
+        )
+      );
     } catch (error) {
       console.error("Error completing task:", error);
     }
   };
-  
+
   const handleTaskDelete = async (id) => {
     try {
       await databases.deleteDocument(
@@ -58,7 +66,7 @@ export const TaskProvider = ({ children }) => {
         appwriteConfig.collectionId,
         id
       );
-      setTasks(prev => prev.filter(task => task.id !== id));
+      setTasks((prev) => prev.filter((task) => task.id !== id));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -66,13 +74,27 @@ export const TaskProvider = ({ children }) => {
 
   const handleAddNewTask = async (newTask) => {
     try {
+      const user = await account.get();
       const res = await databases.createDocument(
         appwriteConfig.databaseId,
         appwriteConfig.collectionId,
         ID.unique(),
-        newTask
+        {
+          ...newTask,
+          userId: user.$id, // 👈 save userId with task
+        }
       );
-      setTasks(prev => [res, ...prev]);
+      setTasks((prev) => [
+        {
+          id: res.$id,
+          title: res.title,
+          description: res.description,
+          date: res.date,
+          isComplete: res.isComplete,
+          userId: res.userId,
+        },
+        ...prev,
+      ]);
       Alert.alert("New Task Added");
     } catch (error) {
       console.error("Error adding task:", error);
@@ -80,13 +102,15 @@ export const TaskProvider = ({ children }) => {
   };
 
   return (
-    <TaskContext.Provider value={{
-      tasks, 
-      setTasks, 
-      handleTaskComplete, 
-      handleTaskDelete, 
-      handleAddNewTask
-    }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        setTasks,
+        handleTaskComplete,
+        handleTaskDelete,
+        handleAddNewTask,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );
