@@ -16,7 +16,7 @@ const Signup = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Regoster to, Ecom.com</Text>
+      <Text style={styles.text}>Register to Ecom.com</Text>
       <TextInput
         value={name}
         onChangeText={(text) => setName(text)}

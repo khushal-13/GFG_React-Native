@@ -1,24 +1,24 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Button, MD3Colors, TextInput } from "react-native-paper";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useAuth } from "../context/AuthProvider";
 
 const Login = () => {
   const { login } = useAuth();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async () => {
     try {
       await login(email, password);
+      router.replace("products");
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Login to, Ecom.com</Text>
+      <Text style={styles.text}>Login to Ecom.com</Text>
       <TextInput
         value={email}
         onChangeText={(text) => setEmail(text)}

@@ -17,7 +17,8 @@ const Verify = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Verify OTP Sent To {params.email}</Text>
+      <Text style={styles.text}>Verify OTP Sent To</Text>
+      <Text style={styles.text}>{params.email}</Text>
       <TextInput
         value={otp}
         onChangeText={(text) => setOtp(text)}

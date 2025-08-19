@@ -4,8 +4,11 @@ import React from "react";
 import { Card, Chip } from "react-native-paper";
 import { router } from "expo-router";
 const ProductItemComponent = (props) => {
-  const { id, title, name, description, image, price, category, rating } =
-    props;
+
+  if (!props) return null; // don’t render if no data
+
+  const { id, title, name, description, image, price, category, rating } = props;
+
   const handlePress = () => {
     router.navigate({
       params: { id: id },

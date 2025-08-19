@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-
 const AuthContext = createContext({
   isLoggedIn: false,
   user: null,
@@ -13,7 +12,7 @@ const AuthContext = createContext({
   logout: () => {},
 });
 export const useAuth = () => useContext(AuthContext);
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "http://192.168.1.105:5000/api";
 
 const storeDataInDevice = async (token) => {
   try {
@@ -25,7 +24,7 @@ const storeDataInDevice = async (token) => {
 };
 const getTokenFromDevice = async () => {
   try {
-    const token = await AsyncStorage.getItem("token", token);
+    const token = await AsyncStorage.getItem("token");
     console.log("TOKEN", token);
     return token;
   } catch (error) {
@@ -37,22 +36,26 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [userCreds, setUserCreds] = useState({ email: "" });
+
   const login = async (email, password) => {
     try {
-      const response = await axios.post("/register", {
+      const response = await axios.post("/login", {
         email,
         password,
       });
       const data = response.data;
+      console.log(data);
       setUser(data.user);
       setIsLoggedIn(true);
       await storeDataInDevice(data.token);
     } catch (error) {
-      console.log(error);
+      console.log("Error in login :: ", error);
       throw error;
     }
   };
+
   const signup = async (name, email, password) => {
+    console.log({ name, email, password });
     try {
       const response = await axios.post("/register", {
         name,
@@ -62,10 +65,11 @@ const AuthProvider = ({ children }) => {
       const data = response.data;
       setUser(data.user);
     } catch (error) {
-      console.log(error);
+      console.log("Error in signup :: ", error);
       throw error;
     }
   };
+
   const verify = async (email, otp) => {
     console.log(email, otp);
     try {
@@ -79,7 +83,7 @@ const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
       await storeDataInDevice(data.token);
     } catch (error) {
-      console.log(error);
+      console.log("Error verifying token :: ", error);
       throw error;
     }
   };

@@ -45,7 +45,7 @@ appRouter.post("/register", async (req, res) => {
 appRouter.post("/verify", (req, res) => {
   const { email, otp } = req.body;
   if (isFieldEmpty(email) || isFieldEmpty(otp)) {
-    return res.status(401).json({ message: "Inbalid ata recieved" });
+    return res.status(401).json({ message: "Invalid data recieved" });
   }
 
   try {

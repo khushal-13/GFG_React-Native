@@ -13,11 +13,15 @@ import { Stack } from "expo-router";
 import { MD3Colors } from "react-native-paper";
 
 const Products = () => {
-  const { isLoading, error, data } = useGetAllProductsQuery();
+  const { isLoading, error, data, isSuccess } = useGetAllProductsQuery();
+
+  // console.log({ isLoading, isSuccess, error, data });
+
   if (isLoading) {
     return <ActivityIndicator color={"red"} />;
   }
-  console.log(data);
+  console.log("Products data : ", data);
+
   return (
     <View style={styles.container}>
       <Stack.Screen

@@ -12,7 +12,8 @@ const ProductItem = () => {
   }
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Stack.Screen options={{ title: data.title }} />
+      {/* <Stack.Screen options={{ title: data.title }} /> */}
+      <Stack.Screen options={{ title: data?.title ?? "Product Details" }} />
       <Image style={{ width: 400, height: 300 }} source={{ uri: data.image }} />
     </View>
   );
